@@ -6,7 +6,7 @@ Enter body text with no extra formatting
 
 Make a link by \[putting the title in brackets\]\(and the link in parentheses\) [Source for this guide](https://www.markdownguide.org/basic-syntax/)
 
-You can also link photos with a ! before the link !(Side view)[/side.png] but apparently not in GitHub.
+You can also link photos with a ! before the link ![Side view](/side.png)
 
 **Bold text** is made by putting a ** on each end of the text.
 
