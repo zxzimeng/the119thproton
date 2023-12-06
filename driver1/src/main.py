@@ -18,23 +18,13 @@ catapult = Motor(Ports.PORT20, GearSetting.RATIO_18_1, False)
 biden = DigitalOut(brain.three_wire_port.h)
 trump = DigitalOut(brain.three_wire_port.g)
 
-def bidenDOWN():
-    brain.screen.print("2")
-    biden.set(True)
-
-def trumpDOWN():
-    trump.set(True)
-
-def allUP():
-    biden.set(False)
-    trump.set(False)
-
-def fly():
-    brain.screen.print("1")
-    controller_1.buttonL1.pressed(bidenDOWN)
-    controller_1.buttonL2.pressed(trumpDOWN)
-    controller_1.buttonY.pressed(allUP)
-    
+driveMotorsList = []
+driveMotorsList.append(Left1)
+driveMotorsList.append(Left2)
+driveMotorsList.append(Left3)
+driveMotorsList.append(Right1)
+driveMotorsList.append(Right2)
+driveMotorsList.append(Right3)
 
 
 def intakey():
@@ -91,10 +81,8 @@ def joystick():
         Right3.stop()
     
 
-
 def driver_control():
     print("hello")
-    fly()
     while True:
         print("hello1")
         joystick()
@@ -104,9 +92,6 @@ def driver_control():
         print("hello6")
         #catapulty()
         print("hello7")
-        brain.screen.print("0")
-        
-        
     
 def autonomous():
     pass
