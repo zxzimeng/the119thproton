@@ -6,15 +6,15 @@ import random
 brain=Brain()
 
 # Robot configuration code
-Left1 = Motor(Ports.PORT1, GearSetting.RATIO_18_1, False)
+Left1 = Motor(Ports.PORT7, GearSetting.RATIO_18_1, False)
 Left2 = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
-Left3 = Motor(Ports.PORT10, GearSetting.RATIO_18_1, False)
-Right1 = Motor(Ports.PORT3, GearSetting.RATIO_18_1, False)
-Right2 = Motor(Ports.PORT4, GearSetting.RATIO_18_1, False)
-Right3 = Motor(Ports.PORT5, GearSetting.RATIO_18_1, False)
+Left3 = Motor(Ports.PORT9, GearSetting.RATIO_18_1, False)
+Right1 = Motor(Ports.PORT17, GearSetting.RATIO_18_1, False)
+Right2 = Motor(Ports.PORT18, GearSetting.RATIO_18_1, False)
+Right3 = Motor(Ports.PORT19, GearSetting.RATIO_18_1, False)
 controller_1 = Controller(PRIMARY)
-intake = Motor(Ports.PORT2, GearSetting.RATIO_6_1, False)
-catapult = Motor(Ports.PORT20, GearSetting.RATIO_36_1, False)
+intake = Motor(Ports.PORT16, GearSetting.RATIO_6_1, False)
+catapult = Motor(Ports.PORT10, GearSetting.RATIO_36_1, False)
 biden = DigitalOut(brain.three_wire_port.h)
 trump = DigitalOut(brain.three_wire_port.g)
 
