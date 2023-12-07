@@ -14,7 +14,7 @@ Right2 = Motor(Ports.PORT4, GearSetting.RATIO_18_1, False)
 Right3 = Motor(Ports.PORT5, GearSetting.RATIO_18_1, False)
 controller_1 = Controller(PRIMARY)
 intake = Motor(Ports.PORT2, GearSetting.RATIO_6_1, False)
-catapult = Motor(Ports.PORT20, GearSetting.RATIO_18_1, False)
+catapult = Motor(Ports.PORT20, GearSetting.RATIO_36_1, False)
 biden = DigitalOut(brain.three_wire_port.h)
 trump = DigitalOut(brain.three_wire_port.g)
 
@@ -27,24 +27,42 @@ driveMotorsList.append(Right2)
 driveMotorsList.append(Right3)
 
 
+def bidenDOWN():
+    brain.screen.print("2")
+    biden.set(True)
+
+def trumpDOWN():
+    trump.set(True)
+
+def allUP():
+    biden.set(False)
+    trump.set(False)
+
+def fly():
+    brain.screen.print("1")
+    controller_1.buttonL1.pressed(bidenDOWN)
+    controller_1.buttonL2.pressed(trumpDOWN)
+    controller_1.buttonY.pressed(allUP)
+
 def intakey():
-    #controller_1.buttonRight.pressed(intake.spin(REVERSE))
-    #controller_1.buttonLeft.pressed(intake.spin(FORWARD))
-    #controller_1.buttonX.pressed(intake.stop())
+    controller_1.buttonRight.pressed(intake.spin, tuple([REVERSE]))
+    controller_1.buttonLeft.pressed(intake.spin, tuple([FORWARD]))
+    controller_1.buttonX.pressed(intake.stop)
     intake.set_velocity(100, PERCENT)
-    while controller_1.buttonRight.pressing():
-        intake.spin(REVERSE)
-    intake.stop()
-    while controller_1.buttonLeft.pressing():
-        intake.set_velocity(100, PERCENT)
-        intake.spin(FORWARD)
-    intake.stop()
+    # while controller_1.buttonRight.pressing():
+    #     intake.spin(REVERSE)
+    # intake.stop()
+    # while controller_1.buttonLeft.pressing():
+    #     intake.set_velocity(100, PERCENT)
+    #     intake.spin(FORWARD)
+    # intake.stop()
 
 def catapulty():
-    while controller_1.buttonR1.pressing():
-        catapult.spin_for(REVERSE, 10, DEGREES)
-    #controller_1.buttonR1.pressed(catapult.spin(REVERSE))
-    #controller_1.buttonR1.pressed(catapult.stop())
+    # while controller_1.buttonR1.pressing():
+    #     catapult.spin_for(REVERSE, 10, DEGREES)
+
+    controller_1.buttonR1.pressed(catapult.spin, tuple([REVERSE]))
+    controller_1.buttonR2.pressed(catapult.stop)
 
 #can we write our own drivetrain control program? instead of using a drivechain motor group
 #the drivechain control motor group does not allow us to set custom wheel sizes, such as 4.125
@@ -83,14 +101,15 @@ def joystick():
 
 def driver_control():
     print("hello")
+    intakey()
+    catapulty()
+    fly()
     while True:
         print("hello1")
         joystick()
         print("hello2")
         print("hello3")
-        intakey()
         print("hello6")
-        #catapulty()
         print("hello7")
     
 def autonomous():
