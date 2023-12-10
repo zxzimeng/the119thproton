@@ -60,7 +60,7 @@ def catapulty():
     # while controller_1.buttonR1.pressing():
     #     catapult.spin_for(REVERSE, 10, DEGREES)
     #catapult.set_max_torque(90, PERCENT)
-    catapult.set_velocity(90.5, PERCENT)
+    catapult.set_velocity(75, PERCENT)
     controller_1.buttonR1.pressed(catapult.spin, tuple([REVERSE]))
     controller_1.buttonR2.pressed(catapult.stop)
 
@@ -115,12 +115,12 @@ def driver_control():
     # Right1.spin(REVERSE)
     # Right2.spin(REVERSE)
     # Right3.spin(REVERSE)
+    leftmotors.spin(FORWARD)
+    rightmotors.spin(FORWARD)
     while True:
         print(1)
         leftmotors.set_velocity((controller_1.axis3.position() + controller_1.axis1.position()), PERCENT)
         rightmotors.set_velocity((controller_1.axis3.position() - controller_1.axis1.position()), PERCENT)
-        leftmotors.spin(FORWARD)
-        rightmotors.spin(FORWARD)
         # print("hello1")
         # joystick()
         # print("hello2")
