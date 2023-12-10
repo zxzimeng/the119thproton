@@ -9,22 +9,21 @@ brain=Brain()
 Left1 = Motor(Ports.PORT7, GearSetting.RATIO_18_1, False)
 Left2 = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
 Left3 = Motor(Ports.PORT9, GearSetting.RATIO_18_1, False)
-Right1 = Motor(Ports.PORT17, GearSetting.RATIO_18_1, False)
-Right2 = Motor(Ports.PORT18, GearSetting.RATIO_18_1, False)
-Right3 = Motor(Ports.PORT19, GearSetting.RATIO_18_1, False)
+Right1 = Motor(Ports.PORT13, GearSetting.RATIO_18_1, True)
+Right2 = Motor(Ports.PORT14, GearSetting.RATIO_18_1, True)
+Right3 = Motor(Ports.PORT15, GearSetting.RATIO_18_1, True)
 controller_1 = Controller(PRIMARY)
 intake = Motor(Ports.PORT16, GearSetting.RATIO_6_1, False)
 catapult = Motor(Ports.PORT10, GearSetting.RATIO_36_1, False)
 biden = DigitalOut(brain.three_wire_port.h)
 trump = DigitalOut(brain.three_wire_port.g)
 
-driveMotorsList = []
-driveMotorsList.append(Left1)
-driveMotorsList.append(Left2)
-driveMotorsList.append(Left3)
-driveMotorsList.append(Right1)
-driveMotorsList.append(Right2)
-driveMotorsList.append(Right3)
+leftmotors=MotorGroup(Left1, Left2, Left3)
+rightmotors=MotorGroup(Right1, Right2, Right3)
+
+
+# wait for rotation sensor to fully initialize
+wait(30, MSEC)
 
 
 def bidenDOWN():
@@ -40,13 +39,13 @@ def allUP():
 
 def fly():
     brain.screen.print("1")
-    controller_1.buttonL1.pressed(bidenDOWN)
-    controller_1.buttonL2.pressed(trumpDOWN)
-    controller_1.buttonY.pressed(allUP)
+    controller_1.buttonY.pressed(bidenDOWN)
+    controller_1.buttonA.pressed(trumpDOWN)
+    controller_1.buttonRight.pressed(allUP)
 
 def intakey():
-    controller_1.buttonRight.pressed(intake.spin, tuple([REVERSE]))
-    controller_1.buttonLeft.pressed(intake.spin, tuple([FORWARD]))
+    controller_1.buttonL1.pressed(intake.spin, tuple([REVERSE]))
+    controller_1.buttonL2.pressed(intake.spin, tuple([FORWARD]))
     controller_1.buttonX.pressed(intake.stop)
     intake.set_velocity(100, PERCENT)
     # while controller_1.buttonRight.pressing():
@@ -60,7 +59,8 @@ def intakey():
 def catapulty():
     # while controller_1.buttonR1.pressing():
     #     catapult.spin_for(REVERSE, 10, DEGREES)
-
+    #catapult.set_max_torque(90, PERCENT)
+    catapult.set_velocity(90.5, PERCENT)
     controller_1.buttonR1.pressed(catapult.spin, tuple([REVERSE]))
     controller_1.buttonR2.pressed(catapult.stop)
 
@@ -70,52 +70,66 @@ def catapulty():
 #keep what you have right now, but see if you can make a better one
 
 def joystick():
-    while (controller_1.axis3.position() or controller_1.axis1.position()):
         y = controller_1.axis3.position()
         x = controller_1.axis1.position()
-        left = y + x
-        right = y - x
-        t1 = Timer()
+        constmax =  0.6
+
+        if y==0 and x==0:
+            Left1.stop()
+            Left2.stop()
+            Left3.stop()
+            Right1.stop()
+            Right2.stop()
+            Right3.stop()
+
+        print(x, y)
+        left = constmax * (y + x)
+        right = constmax * (y - x)
         Left1.set_velocity(left, PERCENT)
         Left2.set_velocity(left, PERCENT)
         Left3.set_velocity(left, PERCENT)
         Right1.set_velocity(right, PERCENT)
         Right2.set_velocity(right, PERCENT)
         Right3.set_velocity(right, PERCENT)
-        t1.clear()
-        while t1.time() < 50:
-            Left1.spin(FORWARD)
-            Left2.spin(FORWARD)
-            Left3.spin(FORWARD)
-            Right1.spin(REVERSE)
-            Right2.spin(REVERSE)
-            Right3.spin(REVERSE)
+
+        Left1.spin(FORWARD)
+        Left2.spin(FORWARD)
+        Left3.spin(FORWARD)
+        Right1.spin(REVERSE)
+        Right2.spin(REVERSE)
+        Right3.spin(REVERSE)
         
-        Left1.stop()
-        Left2.stop()
-        Left3.stop()
-        Right1.stop()
-        Right2.stop()
-        Right3.stop()
     
+def pre_autonomous():
+    pass
 
 def driver_control():
-    print("hello")
+    # print("hello")
     intakey()
     catapulty()
     fly()
+    print(0)
+    # Left1.spin(FORWARD)
+    # Left2.spin(FORWARD)
+    # Left3.spin(FORWARD)
+    # Right1.spin(REVERSE)
+    # Right2.spin(REVERSE)
+    # Right3.spin(REVERSE)
     while True:
-        print("hello1")
-        joystick()
-        print("hello2")
-        print("hello3")
-        print("hello6")
-        print("hello7")
+        print(1)
+        leftmotors.set_velocity((controller_1.axis3.position() + controller_1.axis1.position()), PERCENT)
+        rightmotors.set_velocity((controller_1.axis3.position() - controller_1.axis1.position()), PERCENT)
+        leftmotors.spin(FORWARD)
+        rightmotors.spin(FORWARD)
+        # print("hello1")
+        # joystick()
+        # print("hello2")
+        # print("hello3")
+        # print("hello6")
+        # print("hello7")
     
 def autonomous():
     pass
-# function already defined line 18 (153, 1)
-# Function 'intake' has no 'spin' member (154, 38)
-# Function 'intake' has no 'spin' member (155, 37)
-# Function 'intake' has no 'stop' member (156, 34)
+
 competition = Competition(driver_control, autonomous)
+pre_autonomous()
