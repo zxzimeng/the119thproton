@@ -1,0 +1,18 @@
+{
+	"project": {
+		"name": "driver1",
+		"slot": 2,
+		"description": "",
+		"platform": "V5",
+		"creationDate": "Sun, 03 Dec 2023 01:35:21 GMT",
+		"language": "python",
+		"python": {
+			"main": "/src/main.py"
+		},
+		"sdkVersion": "V5_1_0_1_15"
+	},
+	"extension": {
+		"version": "0.5.0",
+		"json": 1
+	}
+}
