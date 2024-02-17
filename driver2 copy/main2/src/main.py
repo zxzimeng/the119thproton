@@ -95,12 +95,16 @@ def autonomous():
     catapult.set_max_torque(100, PERCENT)
     intake.set_max_torque(100, PERCENT)
 
-    while brain.timer.time(SECONDS)<finish:
-        catapult.set_velocity(70, PERCENT)
-        intake.set_velocity(70*0.6, PERCENT)
-        catapult.spin(REVERSE)
-        intake.spin(FORWARD)
     
+    catapult.set_velocity(70, PERCENT)
+    intake.set_velocity(42, PERCENT)
+    catapult.spin(REVERSE)
+    intake.spin(FORWARD)
+
+    while brain.timer.time(SECONDS)<finish:
+        continue
+
+
     intake.stop()
     catapult.stop()
 
