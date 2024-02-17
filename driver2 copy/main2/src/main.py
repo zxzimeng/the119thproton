@@ -94,7 +94,6 @@ def autonomous():
     finish = start+1*60
     catapult.set_max_torque(100, PERCENT)
     intake.set_max_torque(100, PERCENT)
-
     
     catapult.set_velocity(70, PERCENT)
     intake.set_velocity(42, PERCENT)
@@ -104,10 +103,10 @@ def autonomous():
     while brain.timer.time(SECONDS)<finish:
         continue
 
-
     intake.stop()
     catapult.stop()
 
-
+    motor_group_t.set_velocity(100, PERCENT)
+    motor_group_t.spin_for(REVERSE, 12.5, TURNS)
 
 competition = Competition(driver_control, autonomous)
