@@ -6,11 +6,11 @@
 namespace arms {
 
 // Debug
-#define ODOM_DEBUG 0
+#define ODOM_DEBUG 1
 
 // Negative numbers mean reversed motor
-#define LEFT_MOTORS -1, 2, -3
-#define RIGHT_MOTORS -8, 9, 10
+#define LEFT_MOTORS -11, 12, 13
+#define RIGHT_MOTORS 20, 19, -18
 #define GEARSET pros::E_MOTOR_GEAR_600  // RPM of chassis motors
 
 // Ticks per inch
@@ -21,8 +21,8 @@ namespace arms {
 
 // Tracking wheel distances
 #define TRACK_WIDTH \
-  11.100  // The distance between left and right wheels (or tracker
-          // wheels)
+  11.05  // The distance between left and right wheels (or tracker
+         // wheels)
 #define MIDDLE_DISTANCE \
   0  // Distance from middle wheel to the robot turning center
 
@@ -39,9 +39,9 @@ namespace arms {
 #define SETTLE_THRESH_LINEAR .5   // amount of linear movement for settling
 #define SETTLE_THRESH_ANGULAR .5  // amount of angular movement for settling
 #define SETTLE_TIME 250           // amount of time to count as settled
-#define LINEAR_KP 10
+#define LINEAR_KP 12
 #define LINEAR_KI 0
-#define LINEAR_KD 48
+#define LINEAR_KD 0
 #define TRACKING_KP 80  // point tracking turning strength
 #define ANGULAR_KP 4
 #define ANGULAR_KI 0.00
@@ -70,8 +70,8 @@ inline void init() {
   pid::init(LINEAR_KP, LINEAR_KI, LINEAR_KD, ANGULAR_KP, ANGULAR_KI, ANGULAR_KD,
             TRACKING_KP, MIN_ERROR, LEAD_PCT);
 
-  const char* b[] = {AUTONS, ""};
-  selector::init(HUE, DEFAULT, b);
+  // const char* b[] = {AUTONS, ""};
+  // selector::init(HUE, DEFAULT, b);
 }
 
 }  // namespace arms

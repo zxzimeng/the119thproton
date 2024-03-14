@@ -6,7 +6,9 @@
 #include <iostream>
 #include <string>
 
+#include "ARMS/chassis.h"
 #include "ARMS/config.h"
+#include "ARMS/flags.h"
 #include "pros/adi.hpp"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
@@ -157,41 +159,115 @@ void autonomous() {}
  */
 
 void opcontrol() {
-  print_ascii_header();
-  const bool CATA_MOTOR_VERBOSE = 1;
-  const bool DRIVECHAIN_VERBOSE = 0;
+  // print_ascii_header();
+  // const bool CATA_MOTOR_VERBOSE = 1;
+  // const bool DRIVECHAIN_VERBOSE = 0;
 
-  // intake motor on port 4, not reversed
-  pros::Motor m_intake(4, pros::E_MOTOR_GEARSET_36, false,
-                       pros::E_MOTOR_ENCODER_DEGREES);
-  // cata motor on port 4, reversed
-  pros::Motor m_cata(6, pros::E_MOTOR_GEARSET_36, true,
-                     pros::E_MOTOR_ENCODER_DEGREES);
+  // // intake motor on port 4, not reversed
+  // pros::Motor m_intake(10, pros::E_MOTOR_GEARSET_36, false,
+  //                      pros::E_MOTOR_ENCODER_DEGREES);
+  // // cata motor on port 4, reversed
+  // pros::Motor m_cata(1, pros::E_MOTOR_GEARSET_36, true,
+  //                    pros::E_MOTOR_ENCODER_DEGREES);
 
-  // left wing on port A
-  pros::ADIDigitalOut w_left('a', false);
-  // right wing on port B
-  pros::ADIDigitalOut w_right('b', false);
+  // // left wing on port A
+  // pros::ADIDigitalOut w_left('a', false);
+  // // right wing on port B
+  // pros::ADIDigitalOut w_right('b', false);
 
-  // target rpm for catapult
-  double rpm_target_cata = 60.0;
-  // voltage for main cata motor
-  double volt_cata = rpm_target_cata / 100.0 * 127.0;
-  // gear ratio from catapult gear to intake ratchet gear
-  // driven gear:driving gear
-  double ratio_cata_to_intake = 36.0 / 60.0;
-  // voltage for secondary cata (intake) motor
-  double volt_intake = rpm_target_cata * ratio_cata_to_intake / 100 * 127;
+  // // target rpm for catapult
+  // double rpm_target_cata = 30.0;
 
+  // // voltage for main cata motor
+  // double volt_cata = rpm_target_cata / 100.0 * 127.0;
+  // double volt_intake = volt_cata;
+
+  // std::cout << volt_intake;
   // spin both motors at their calculated voltage
+  // m_intake.move(volt_intake);
+  // m_cata.move(volt_cata);
 
-  while (true) {
-    if (CATA_MOTOR_VERBOSE) {
-      print_motor_data(m_cata, "Cata");
-      print_motor_data(m_intake, "Inta");
-    }
-    pros::delay(100);
-    // m_intake.move(volt_intake);
-    m_cata.move(volt_cata);
-  }
+  // while (true) {
+  //   if (CATA_MOTOR_VERBOSE) {
+  //     print_motor_data(m_cata, "Cata");
+  //     print_motor_data(m_intake, "Inta");
+  //   }
+  //   pros::delay(3000);
+
+  //   //     pros::delay(100);
+  // }
+
+  // arms::odom::reset({0, 0}, 0);
+  // arms::chassis::turn(90, arms::ASYNC);
+  // pros::delay(3000);
+
+  arms::odom::reset({0, 0}, 0);
+  arms::chassis::move(90);
+  pros::delay(5000);
+
+  // while (true) {
+  //   // insert other opcontrol code here
+  //   pros::lcd::set_text(0, "X: " +
+  //   std::to_string(arms::odom::getPosition().x)); pros::lcd::set_text(1, "Y:
+  //   " + std::to_string(arms::odom::getPosition().y)); pros::lcd::set_text(2,
+  //   "H: " + std::to_string(arms::odom::getHeading())); pros::lcd::set_text(
+  //       3, "Left: " + std::to_string(arms::odom::getLeftEncoder()));
+  //   pros::lcd::set_text(
+  //       4, "Right: " + std::to_string(arms::odom::getRightEncoder()));
+  //   pros::lcd::set_text(
+  //       5, "Middle: " + std::to_string(arms::odom::getMiddleEncoder()));
+  //   pros::delay(10);
+  // }
+  // reset odom settings
+  // arms::odom::reset({0, 0}, -90);
+  // if (master.get_digital_new_press(DIGITAL_A)) {
+  // arms::odom::reset({0, 0}, 0);
+  // arms::chassis::move(24, arms::ASYNC);
+  // pros::delay(5000);
+  // }
+
+  // move to matchload position
+  // arms::chassis::move({16, 23, 0}, arms::RELATIVE | arms::REVERSE);
+
+  // // deploy wings
+  // w_right.set_value(1);
+
+  // int32_t now = pros::millis();
+  // int8_t wait_time = 30;  // catapulting time in seconds
+  // int32_t target = now + wait_time * 1000;
+
+  // m_intake.move(volt_intake);
+  // m_cata.move(volt_cata);
+
+  // while (pros::millis() < target) {
+  //   continue;
+  // }
+
+  // m_cata.move(0);
+  // m_intake.move(0);
+
+  // // retract wing
+  // w_right.set_value(0);
+
+  // // turn left 10° so that we can clear the black bar, relative
+  // arms::chassis::move({0, 0, 30}, arms::RELATIVE);
+
+  // // move forward and clear the short barriers
+  // arms::chassis::move(20);
+
+  // // turn to paralell the middle bar
+  // arms::chassis::turn(90);
+
+  // // drive over the middle bar, no pid
+  // arms::chassis::move({60, 0}, arms::RELATIVE | arms::THRU);
+
+  // //   // straighten after crossing
+  // arms::chassis::turn(90);
+
+  // //   // turn 180 to get ready to deploy wings
+  // arms::chassis::turn(180, arms::RELATIVE);
+
+  // // deploy wings
+  // w_left.set_value(1);
+  // w_right.set_value(1);
 }
